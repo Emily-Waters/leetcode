@@ -1,24 +1,31 @@
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
-
 var twoSum = function (nums, target) {
+  let j = nums.length - 1;
   const numberIndexDict = {};
-  const result = [];
 
   for (let i = 0; i <= nums.length; i++) {
-    const n = nums[i];
-    const ii = numberIndexDict[target - n];
+    const iNum = nums[i];
+    const jNum = nums[j];
 
-    if (ii !== undefined) {
-      result.push(i, ii);
-      continue;
+    const ij = iNum + jNum;
+
+    if (ij === target) {
+      return [i, j];
     }
 
-    numberIndexDict[n] = i;
-  }
+    const iTargetComplement = target - iNum;
+    const jTargetComplement = target - jNum;
 
-  return result;
+    if (numberIndexDict[iTargetComplement] !== undefined) {
+      return [i, numberIndexDict[iTargetComplement]];
+    }
+
+    if (numberIndexDict[jTargetComplement] !== undefined) {
+      return [j, numberIndexDict[jTargetComplement]];
+    }
+
+    numberIndexDict[iNum] = i;
+    numberIndexDict[jNum] = j;
+
+    j--;
+  }
 };
